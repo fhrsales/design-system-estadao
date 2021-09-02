@@ -1,4 +1,3 @@
-Meu Primeiro Repositório 
+Estadão 3.0: Manual do Estadão impresso 
 ======================== 
 
-O Git/GitHub são legais!

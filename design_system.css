@@ -1,0 +1,382 @@
+:root {
+    /* === variáveis globais ===*/
+    --corTexto: rgb(62, 62, 62);
+    --larguraTexto: calc(100% - 50px);
+    --larguraMaxTexto: 600px;
+    --larguraMeioFilete: 2.3rem;
+
+    /* === cores ===*/
+    --pria: #006393;
+    --prib: #0099da;
+    --ecoa: #007a6c;
+    --ecob: #7baf37;
+    --c2a: #c40e3e;
+    --c2b: #e576a8;
+}
+
+body {
+    margin: 0 0 6rem 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+html {
+    scroll-behavior: smooth;
+  }
+
+/* === topo ===*/
+.brandcontainer {
+    width: 100%;
+    text-align: center;
+}
+
+.brand {
+    width: 250px;
+    height: 48px;
+    margin: 0.8rem auto 0 auto;
+    display: block;
+    background: url(brandEstadao.svg);
+    background-repeat: no-repeat;
+}
+
+
+/* === Menu ===*/
+.topo {
+    overflow: hidden;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    box-shadow: 0 0 transparent, 0 0 transparent, 1px 3px 6px #00000026;
+}
+
+.topo #hamburger {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 1rem;
+    display: none;
+    height: 100vh;
+    width: 100%;
+    text-align: center;
+}
+
+.topo a {
+    text-decoration: none;
+    font: 600 1.1875rem/2.3rem 'Flama Condensed', Arial, sans-serif;
+    margin-bottom: 0.5rem;
+}
+
+.topo a.icon {
+    display: inline-block;
+}
+
+#icone {
+    margin-top: 6px;
+    padding: 12px;
+}
+#icone:hover {
+    background-color: var(--pria);
+    border-radius: 100%;
+    color: white;
+}
+
+.hamburgerItem {
+    color: var(--corTexto) !important;
+}
+
+.hamburgerItem:hover {
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--corTexto);
+}
+
+.abreMenu {
+    width: 100%;
+    text-align: center;
+}
+
+#site-content {
+    margin-top: 10rem;
+}
+
+
+/* === largura dos containers de conteúdo ===*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.linha_fina,
+.assinatura,
+.autor,
+.autor_descricao,
+.lead,
+.texto,
+.pdfContainer,
+.rodape,
+hr,
+.filete_quadruplo::before,
+.filete_quadruplo::after {
+    width: var(--larguraTexto);
+    max-width: var(--larguraMaxTexto);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* === réguas e fios ===*/
+.filete_quadruplo::before {
+    content: '';
+    border-bottom: 2px dotted var(--corTexto);
+    height: 6px;
+    position: absolute;
+    margin-top: -14px;
+}
+
+.filete_quadruplo::after {
+    content: '';
+    border-bottom: 2px dotted var(--corTexto);
+    height: 6px;
+    position: absolute;
+    margin-top: 4px;
+}
+
+.filete_quadruplo {
+    margin: 5rem auto 1.5rem auto;
+    border-top: 2px dotted var(--corTexto);
+    border-bottom: 2px dotted var(--corTexto);
+    border-left: 1px solid white;
+    height: 4px;
+    opacity: 0.7;
+}
+
+.filete_pontilhado {
+    max-width: var(--larguraMaxTexto);
+    margin: 3rem auto;
+    border-top: 2px dotted var(--corTexto);
+    opacity: 0.7;
+}
+
+.filete_fino {
+    margin: 3rem auto;
+    border-top: 1px solid var(--corTexto);
+    opacity: 0.4;
+}
+
+.filete_generos {
+    margin: 3rem auto;
+    border-top: 2px solid var(--pria);
+}
+
+.filete_duplo {
+    margin: 3rem auto;
+    border-top: 2px dotted var(--corTexto);
+    border-bottom: 2px dotted var(--corTexto);
+    border-left: 1px solid white;
+    height: 4px;
+    opacity: 0.7;
+}
+
+/* === imagem ===*/
+figure {
+    margin: 0 auto 0 auto;
+}
+
+img {
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    display: block;
+
+}
+
+.legenda {
+    font: 600 1rem/1.2rem 'Flama', Arial, sans-serif;
+    color: var(--corTexto);
+    margin-bottom: 2.5rem;
+}
+
+.credito {
+    font: normal 0.7rem/1.8rem 'Flama', Arial, sans-serif;
+    text-transform: uppercase;
+    color: var(--corTexto);
+    display: grid;
+    display: -ms-inline-grid;
+    display: -moz-inline-grid;
+}
+
+.pdfContainer {
+    text-align: center;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.pdf {
+    width: var(--larguraTexto);
+    max-width: var(--larguraMaxTexto);
+    height: 465px;
+}
+
+.P {
+    width: var(--larguraTexto);
+    max-width: var(--larguraMaxTexto);
+}
+
+.M {
+    width: var(--larguraTexto);
+    max-width: 1024px;
+    margin: 0 auto 0 auto;
+}
+
+.G {
+    max-width: 100%;
+    ;
+}
+
+/* === headings ===*/
+h1 {
+    font: 600 1.9375rem/2.25rem 'Estado Headline', Georgia, serif;
+    margin-top: 1.5rem;
+}
+
+h2 {
+    font: 600 1.75rem/2.125rem 'Estado Headline', Georgia, serif;
+}
+
+h3,
+h4,
+h5,
+h6 {
+    font: 800 1.1875rem/1.1875rem 'Flama Condensed', Arial, sans-serif;
+    color: var(--pria);
+    margin-bottom: -0.5rem;
+}
+
+.linha_fina {
+    font: italic 1.7rem/1.6rem 'Freight Text', Georgia, serif;
+    text-align: left;
+    margin: 0 auto 2rem auto;
+}
+
+@media(min-width:640px) {
+    h1 {
+        font-size: 2.75rem;
+        line-height: 3.0625rem;
+    }
+
+    .linha_fina:before {
+        content: '___';
+        margin-right: 6px;
+
+    }
+
+    .linha_fina {
+        font-size: 1.5375rem;
+        line-height: 1.975rem;
+    }
+}
+
+/* === texto ===*/
+.assinatura {
+    margin-top: 5rem;
+    margin-bottom: 2rem;
+    ;
+}
+
+.assinatura::before {
+    position: absolute;
+    content: '';
+    width: var(--larguraMeioFilete);
+    margin-top: -1rem;
+    border-top: 2px dotted var(--corTexto);
+    border-bottom: 2px dotted var(--corTexto);
+    border-left: 1px solid white;
+    height: 4px;
+    opacity: 0.7;
+}
+
+.assinatura::after {
+    position: absolute;
+    content: '';
+    width: var(--larguraMeioFilete);
+    margin-top: 10px;
+    border-bottom: 2px dotted var(--corTexto);
+    opacity: 0.7;
+}
+
+.autor {
+    font: 800 1.005rem "Flama Condensed", Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06rem;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.autor_descricao {
+    font: 400 0.8rem "Flama semicondensed", Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06rem;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.lead::first-letter {
+    float: left;
+    display: block;
+    font: normal normal 3.8rem/3.5rem "Estado Fine", Georgia, sans-serif;
+    margin: -1px 6px -15px 0;
+}
+
+.texto,
+.lead {
+    font: 500 1.275rem/1.75rem "Freight Text", Georgia, serif;
+    margin-top: 0.78125rem;
+    margin-bottom: 0.78125rem;
+}
+
+b {
+    font-weight: 800;
+}
+
+a:link,
+a:visited {
+    color: var(--pria);
+}
+
+.destaque {
+    background: var(--ecoa);
+    color: white;
+    padding: 1px 1rem 3px 1rem;
+    border-radius: 100px;
+    margin: 2px 0.5rem 0 0;
+    font: normal 800 0.8rem/1.2rem "Flama", Arial, sans-serif;
+    text-transform: uppercase;
+    float: left;
+}
+
+.numero {
+    background: var(--c2a);
+    color: white;
+    padding: 2px 9px 4px 9px;
+    border-radius: 100px;
+    margin: 1px 0.5rem 0 0;
+    font: normal 800 0.8rem/1.2rem "Flama", Arial, sans-serif;
+    text-transform: uppercase;
+    float: left;
+}
+
+.rodape::before {
+    position: absolute;
+    content: '';
+    width: var(--larguraMeioFilete);
+    border-top: 1px solid var(--corTexto);
+    margin-top: -1rem;
+    opacity: 0.4;
+}
+
+.rodape {
+    font: 600 0.8rem/1.2rem "Flama semicondensed", Arial, sans-serif;
+    text-transform: uppercase;
+    margin-top: 3rem;
+
+}
