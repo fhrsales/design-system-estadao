@@ -19,10 +19,6 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-html {
-    scroll-behavior: smooth;
-  }
-
 /* === topo ===*/
 .brandcontainer {
     width: 100%;
@@ -37,7 +33,6 @@ html {
     background: url(brandEstadao.svg);
     background-repeat: no-repeat;
 }
-
 
 /* === Menu ===*/
 .topo {
@@ -73,6 +68,7 @@ html {
     margin-top: 6px;
     padding: 12px;
 }
+
 #icone:hover {
     background-color: var(--pria);
     border-radius: 100%;
@@ -96,7 +92,6 @@ html {
 #site-content {
     margin-top: 10rem;
 }
-
 
 /* === largura dos containers de conteúdo ===*/
 h1,
@@ -185,7 +180,22 @@ img {
     margin-top: 1rem;
     margin-bottom: 0.5rem;
     display: block;
+}
 
+@keyframes fading {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+img.loaded {
+    animation-name: fading;
+    animation-duration: 1s;
+    animation-timing-function: ease-in;
 }
 
 .legenda {
@@ -378,5 +388,4 @@ a:visited {
     font: 600 0.8rem/1.2rem "Flama semicondensed", Arial, sans-serif;
     text-transform: uppercase;
     margin-top: 3rem;
-
 }

@@ -9,11 +9,11 @@ function renderizarGoogleDocs(file, callback) {
 };
 
 renderizarGoogleDocs('https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr/page.json', function (text) {
-    var jsonData = JSON.parse(text);
+    var googleDocsData = JSON.parse(text);
 
     //Cria o cabeçalho <head> do HTML com os metadados
     var metadados = '';
-    jsonData.cabeca.forEach(function (block) {
+    googleDocsData.cabeca.forEach(function (block) {
         switch (block.type) {
             case 'titulo':
                 metadados += `<title>${block.value}</title>`;
@@ -47,12 +47,11 @@ renderizarGoogleDocs('https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr
     <link rel="shortcut icon" href="https://arte.estadao.com.br/share/favicon/favicon.ico">
     <meta name="msapplication-starturl" content="https://www.estadao.com.br">
     <link rel="stylesheet" href="https://arte.estadao.com.br/share/styles/fonts.min.css">
-    <link rel="stylesheet" href="design_system.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>`;
+    <link rel="stylesheet" href="design_system.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">`;
 
     //Primeira dobra: Título, linha fina, etc.
     var header = '';
-    jsonData.cabeca.forEach(function (block) {
+    googleDocsData.cabeca.forEach(function (block) {
         switch (block.type) {
             case 'chapeu':
                 header += `<div><h3>${block.value}</h3></div>`;
@@ -78,7 +77,7 @@ renderizarGoogleDocs('https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr
 
     //Cria o menu automaticamente. Todo o texto que estiver como chapéu (h4) vai para o menu
     var menu = '';
-    jsonData.conteudo.forEach(function (block) {
+    googleDocsData.conteudo.forEach(function (block) {
         switch (block.type) {
             case 'chapeu':
                 menu += `<a href="#${block.value}" class="hamburgerItem" onclick="abreMenu()">${block.value}</a><br>`;
@@ -89,15 +88,15 @@ renderizarGoogleDocs('https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr
 
     //Render do conteúdo 
     var conteudo = '';
-    jsonData.conteudo.forEach(function (block) {
+    googleDocsData.conteudo.forEach(function (block) {
         switch (block.type) {
             case 'imagem':
                 conteudo +=
-                    `<figure class="${block.value.tamanho}"><img alt="${block.value.alt}" src="${block.value.fonte}"><figcaption class="legenda">${block.value.legenda}<span class="credito">${block.value.credito}</span></figcaption></figure>`;
+                    `<figure class="${block.value.tamanho}"><img alt="${block.value.alt}" loading="lazy" data-src="${block.value.fonte}"><figcaption class="legenda">${block.value.legenda}<span class="credito">${block.value.credito}</span></figcaption></figure>`;
                 break;
             case 'pdf':
                 conteudo +=
-                    `<div class="pdfContainer"><object class="pdf" data="${block.value.fonte}?#zoom=25&scrollbar=1&toolbar=1&navpanes=1" type="application/pdf"></object></div>`;
+                    `<div class="pdfContainer"><object alt="${block.value.alt}" class="pdf" data="${block.value.fonte}?#zoom=25&scrollbar=1&toolbar=1&navpanes=1" type="application/pdf"></object></div>`;
                 break;
             case 'youtubeVideo':
                 conteudo +=

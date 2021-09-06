@@ -7,7 +7,7 @@
 
 <body>
   <header id="menu" class="topo">
-    <a href="https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr/">
+    <a href="https://atelie.estadao.com.br/manual/">
       <div class="brandcontainer brand"></div>
     </a>
     <div class="abreMenu">
@@ -19,11 +19,22 @@
   </header>
 
   <main id="site-content">
-    <article id="historia">
-      <header id='cabecalho'></header>
-      <section name="corpo_do_artigo" id='conteudo'></section>
+    <header id='cabecalho'></header>
+    <section name="corpo_do_artigo" id='conteudo'></section>
     </article>
   </main>
 </body>
+
+<script type="text/javascript">
+  (function (w, d) {
+    var b = d.getElementsByTagName('body')[0];
+    var s = d.createElement("script");
+    s.async = true;
+    var v = !("IntersectionObserver" in w) ? "8.7.1" : "10.5.2";
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/" + v + "/lazyload.min.js";
+    w.lazyLoadOptions = {}; // Your options here. See "recipes" for more information about async.
+    b.appendChild(s);
+  }(window, document));
+</script>
 
 </html>
