@@ -1,17 +1,8 @@
 const json = 'https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr/page.json';
 
-// ---------------------------------------------------------------------------------------------------------------------------------
-function renderizaGoogleDocs(file, callback) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.overrideMimeType('application/json');
-    rawFile.open('GET', file, true);
-    rawFile.onreadystatechange = function () {
-        if (rawFile.readyState == 4 && rawFile.status == '200') callback(rawFile.responseText);
-    };
-    rawFile.send(null);
-};
+document.write("<base href='https://" + document.location.host + "' />");
 
-// ---------------------------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------------------
 //Função para posicionar o chapéu logo abaixo do menu fixo quando selecionado
 function addMargin() {
     window.scrollTo(0, window.pageYOffset - 130);
@@ -19,7 +10,7 @@ function addMargin() {
 
 window.addEventListener('hashchange', addMargin);
 
-// ---------------------------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------------------
 //Função para abrir o menu
 function abreMenu() {
     var abre = document.getElementById("hamburger");
@@ -33,6 +24,18 @@ function abreMenu() {
     var trocaIcone = document.getElementById("icone");
     trocaIcone.classList.toggle('fa-bars');
     trocaIcone.classList.toggle('fa-times');
+};
+
+
+// -------------------------------------------------------------------------------------------------------------------------------------
+function renderizaGoogleDocs(file, callback) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.overrideMimeType('application/json');
+    rawFile.open('GET', file, true);
+    rawFile.onreadystatechange = function () {
+        if (rawFile.readyState == 4 && rawFile.status == '200') callback(rawFile.responseText);
+    };
+    rawFile.send(null);
 };
 
 // -------------------------------------------------------------------------------------------------------------------------------------
@@ -75,7 +78,8 @@ renderizaGoogleDocs(json, function (text) {
     <link rel="shortcut icon" href="https://arte.estadao.com.br/share/favicon/favicon.ico">
     <meta name="msapplication-starturl" content="https://www.estadao.com.br">
     <link rel="stylesheet" href="https://arte.estadao.com.br/share/styles/fonts.min.css">
-    <link rel="stylesheet" href="design_system.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     `;
 
     // ---------------------------------------------------------------------------------------------------------------------------------
@@ -121,14 +125,15 @@ renderizaGoogleDocs(json, function (text) {
             case 'chapeu': // Insere o título do chapéu
                 var chapeu = document.createElement('h4');
                 chapeu.className = 'chapeu';
+                chapeu.id = block.value;
                 chapeu.innerHTML = block.value;
                 document.getElementById('conteudo').appendChild(chapeu);
                 // ---------------------------------------------------------------------------------------------------------------------
                 var menu = document.createElement('a');
                 menu.className = 'hamburgerItem';
                 menu.href = '#' + block.value;
-                setAttribute = onclick = "abreMenu()";
-                menu.innerHTML = block.value + '<br>';
+                menu.setAttribute('onclick', 'abreMenu()');
+                menu.innerHTML = block.value + '</br>';
                 document.getElementById('hamburger').appendChild(menu);
                 break;
                 // ---------------------------------------------------------------------------------------------------------------------
@@ -150,7 +155,7 @@ renderizaGoogleDocs(json, function (text) {
                 figure.className = block.value.tamanho;
                 figure.innerHTML =
                     `<img 
-                        src="${block.value.fonte}"
+                        src="./images/${block.value.fonte}"
                         loading="lazy" 
                         alt="${block.value.alt}">
                     <figcaption class="legenda">${block.value.legenda}
@@ -183,7 +188,7 @@ renderizaGoogleDocs(json, function (text) {
                 pdf.innerHTML =
                     `<object alt="${block.value.alt}" 
                         class="pdf" 
-                        data="${block.value.fonte}?#zoom=25&scrollbar=1&toolbar=1&navpanes=1" 
+                        data="./pdfs/${block.value.fonte}?#zoom=25&scrollbar=1&toolbar=1&navpanes=1" 
                         type="application/pdf">
                     </object>`;
                 document.getElementById('conteudo').appendChild(pdf);
@@ -218,7 +223,7 @@ renderizaGoogleDocs(json, function (text) {
                 var paragrafo = document.createElement('p');
                 paragrafo.className = 'rodape';
                 paragrafo.innerHTML = block.value;
-                document.getElementById('conteudo').appendChild(paragrafo);
+                document.getElementById('rodape').appendChild(paragrafo);
                 break;
         }
     });
