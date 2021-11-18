@@ -1,4 +1,7 @@
-function renderizarGoogleDocs(file, callback) {
+const json = 'https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr/page.json';
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+function renderizaGoogleDocs(file, callback) {
     var rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType('application/json');
     rawFile.open('GET', file, true);
@@ -8,9 +11,34 @@ function renderizarGoogleDocs(file, callback) {
     rawFile.send(null);
 };
 
-renderizarGoogleDocs('https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr/page.json', function (text) {
-    var googleDocsData = JSON.parse(text);
+// ---------------------------------------------------------------------------------------------------------------------------------
+//Função para posicionar o chapéu logo abaixo do menu fixo quando selecionado
+function addMargin() {
+    window.scrollTo(0, window.pageYOffset - 130);
+}
 
+window.addEventListener('hashchange', addMargin);
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+//Função para abrir o menu
+function abreMenu() {
+    var abre = document.getElementById("hamburger");
+    if (abre.style.display === "block") {
+        abre.style.display = "none";
+    } else {
+        abre.style.display = "block";
+    };
+
+    //Troca o ícone
+    var trocaIcone = document.getElementById("icone");
+    trocaIcone.classList.toggle('fa-bars');
+    trocaIcone.classList.toggle('fa-times');
+};
+
+// -------------------------------------------------------------------------------------------------------------------------------------
+renderizaGoogleDocs(json, function (text) {
+    var googleDocsData = JSON.parse(text);
+    // ---------------------------------------------------------------------------------------------------------------------------------
     //Cria o cabeçalho <head> do HTML com os metadados
     var metadados = '';
     googleDocsData.cabeca.forEach(function (block) {
@@ -47,8 +75,10 @@ renderizarGoogleDocs('https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr
     <link rel="shortcut icon" href="https://arte.estadao.com.br/share/favicon/favicon.ico">
     <meta name="msapplication-starturl" content="https://www.estadao.com.br">
     <link rel="stylesheet" href="https://arte.estadao.com.br/share/styles/fonts.min.css">
-    <link rel="stylesheet" href="design_system.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">`;
+    <link rel="stylesheet" href="design_system.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    `;
 
+    // ---------------------------------------------------------------------------------------------------------------------------------
     //Primeira dobra: Título, linha fina, etc.
     var header = '';
     googleDocsData.cabeca.forEach(function (block) {
@@ -75,98 +105,121 @@ renderizarGoogleDocs('https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr
     });
     document.getElementById('cabecalho').innerHTML = header;
 
-    //Cria o menu automaticamente. Todo o texto que estiver como chapéu (h4) vai para o menu
-    var menu = '';
-    googleDocsData.conteudo.forEach(function (block) {
-        switch (block.type) {
-            case 'chapeu':
-                menu += `<a href="#${block.value}" class="hamburgerItem" onclick="abreMenu()">${block.value}</a><br>`;
-                break;
-        }
-    });
-    document.getElementById('hamburger').innerHTML = menu;
-
+    // ---------------------------------------------------------------------------------------------------------------------------------
     //Render do conteúdo 
     var conteudo = '';
     googleDocsData.conteudo.forEach(function (block) {
         switch (block.type) {
-            case 'imagem':
-                conteudo +=
-                    `<figure class="${block.value.tamanho}"><img alt="${block.value.alt}" loading="lazy" data-src="${block.value.fonte}"><figcaption class="legenda">${block.value.legenda}<span class="credito">${block.value.credito}</span></figcaption></figure>`;
+            // -------------------------------------------------------------------------------------------------------------------------
+            default: // Insere os parágrafos na sequência
+                var paragrafo = document.createElement('p');
+                paragrafo.className = 'texto';
+                paragrafo.innerHTML = block.value;
+                document.getElementById('conteudo').appendChild(paragrafo);
                 break;
-            case 'pdf':
-                conteudo +=
-                    `<div class="pdfContainer"><object alt="${block.value.alt}" class="pdf" data="${block.value.fonte}?#zoom=25&scrollbar=1&toolbar=1&navpanes=1" type="application/pdf"></object></div>`;
+                // ---------------------------------------------------------------------------------------------------------------------
+            case 'chapeu': // Insere o título do chapéu
+                var chapeu = document.createElement('h4');
+                chapeu.className = 'chapeu';
+                chapeu.innerHTML = block.value;
+                document.getElementById('conteudo').appendChild(chapeu);
+                // ---------------------------------------------------------------------------------------------------------------------
+                var menu = document.createElement('a');
+                menu.className = 'hamburgerItem';
+                menu.href = '#' + block.value;
+                setAttribute = onclick = "abreMenu()";
+                menu.innerHTML = block.value + '<br>';
+                document.getElementById('hamburger').appendChild(menu);
                 break;
-            case 'youtubeVideo':
-                conteudo +=
-                    `<figure class="${block.value.tamanho}"><iframe style="margin: 1rem 0 0.5rem 0" width="100%" height="338" src="https://www.youtube.com/embed/${block.value.fonte}" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><figcaption class="legenda">${block.value.legenda}<span class="credito">${block.value.credito}</span></figcaption></figure>`;
+                // ---------------------------------------------------------------------------------------------------------------------
+            case 'titulinho': // Insere os subtítulos
+                var titulinho = document.createElement('h2');
+                titulinho.innerHTML = block.value;
+                document.getElementById('conteudo').appendChild(titulinho);
                 break;
-            case 'filete_pontilhado':
-                conteudo +=
-                    `<hr class="filete_pontilhado">`;
+                // ---------------------------------------------------------------------------------------------------------------------
+            case 'lead': // Insere o lead da reportagem
+                var paragrafo = document.createElement('p');
+                paragrafo.className = 'lead';
+                paragrafo.innerHTML = block.value;
+                document.getElementById('conteudo').appendChild(paragrafo);
                 break;
-            case 'filete_fino':
-                conteudo +=
-                    `<hr class="filete_fino">`;
+                // ---------------------------------------------------------------------------------------------------------------------
+            case 'imagem': // Insere imagens
+                var figure = document.createElement('figure');
+                figure.className = block.value.tamanho;
+                figure.innerHTML =
+                    `<img 
+                        src="${block.value.fonte}"
+                        loading="lazy" 
+                        alt="${block.value.alt}">
+                    <figcaption class="legenda">${block.value.legenda}
+                        <span class="credito">${block.value.credito}</span>
+                    </figcaption>`;
+                document.getElementById('conteudo').appendChild(figure);
                 break;
-            case 'filete_generos':
-                conteudo +=
-                    `<hr class="filete_generos">`;
+                // ---------------------------------------------------------------------------------------------------------------------
+            case 'gráfico': // insere gráficos do Uva feitos no Illustrator
+                var div = document.createElement('div');
+                div.setAttribute('data-contains', 'gráfico');
+                div.className = block.value.tamanho;
+                var uvaId = block.value.fonte;
+                var showTitle = block.value.mostrar_título;
+                var showDescription = block.value.mostrar_descrição;
+                var showBrand = block.value.mostrar_marca;
+                var script = document.createElement('script');
+                script.setAttribute('data-uva-id', uvaId);
+                script.setAttribute('data-show-title', showTitle);
+                script.setAttribute('data-show-description', showDescription);
+                script.setAttribute('data-show-brand', showBrand);
+                script.setAttribute('src', 'https://arte.estadao.com.br/uva/scripts/embed.min.js');
+                div.appendChild(script);
+                document.getElementById('conteudo').appendChild(div);
                 break;
-            case 'filete_duplo':
-                conteudo +=
-                    `<hr class="filete_duplo">`;
+                // ---------------------------------------------------------------------------------------------------------------------
+            case 'pdf': // insere PDFs
+                var pdf = document.createElement('div');
+                pdf.className = 'pdfContainer';
+                pdf.innerHTML =
+                    `<object alt="${block.value.alt}" 
+                        class="pdf" 
+                        data="${block.value.fonte}?#zoom=25&scrollbar=1&toolbar=1&navpanes=1" 
+                        type="application/pdf">
+                    </object>`;
+                document.getElementById('conteudo').appendChild(pdf);
                 break;
-            case 'separador':
-                conteudo +=
-                    `<hr class="filete_quadruplo">`;
+                // ---------------------------------------------------------------------------------------------------------------------
+            case 'youtubeVideo': // insere vídeos do YouTube
+                var youtubeVideo = document.createElement('figure');
+                youtubeVideo.className = block.value.tamanho;
+                youtubeVideo.innerHTML =
+                    `<iframe
+                        style="margin: 1rem 0 0.5rem 0" width="100%" height="338" 
+                        src="https://www.youtube.com/embed/${block.value.fonte}" 
+                        frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    </iframe>
+                    <figcaption class="legenda">${block.value.legenda}<span class="credito">${block.value.credito}</span></figcaption>`;
+                document.getElementById('conteudo').appendChild(youtubeVideo);
                 break;
-            case 'titulinho':
-                conteudo +=
-                    `<h2>${block.value}</h2>`;
+                // ---------------------------------------------------------------------------------------------------------------------
+            case 'separador': // insere separadores entre os blocos
+                var separador = document.createElement('hr');
+                separador.className = 'filete_duplo';
+                document.getElementById('conteudo').appendChild(separador);
                 break;
-            case 'chapeu':
-                conteudo +=
-                    `<h4 id="${block.value}" class="chapeu">${block.value}</h4>`;
+                // ---------------------------------------------------------------------------------------------------------------------
+            case 'html': // Insere código HTMl customizado
+                var html = document.createElement('div');
+                html.innerHTML = block.value.código;
+                document.getElementById('conteudo').appendChild(html);
                 break;
-            case 'rodape':
-                conteudo +=
-                    `<p class="rodape">${block.value}</p>`;
-                break;
-            case 'lead':
-                conteudo += `<p class="lead">${block.value}</p>`;
-                break;
-            default:
-                conteudo += `<p class="texto">${block.value}</p>`;
+                // ---------------------------------------------------------------------------------------------------------------------
+            case 'rodape': // Insere o rodapé
+                var paragrafo = document.createElement('p');
+                paragrafo.className = 'rodape';
+                paragrafo.innerHTML = block.value;
+                document.getElementById('conteudo').appendChild(paragrafo);
                 break;
         }
     });
-    document.getElementById('conteudo').innerHTML = conteudo;
-
-
 });
-
-//Função para posicionar o chapéu logo abaixo do menu fixo quando selecionado
-function addMargin() {
-    window.scrollTo(0, window.pageYOffset - 130);
-}
-
-window.addEventListener('hashchange', addMargin);
-
-
-//Função para abrir o menu
-function abreMenu() {
-    var abre = document.getElementById("hamburger");
-    if (abre.style.display === "block") {
-        abre.style.display = "none";
-    } else {
-        abre.style.display = "block";
-    };
-
-    //Troca o ícone
-    var trocaIcone = document.getElementById("icone");
-    trocaIcone.classList.toggle('fa-bars');
-    trocaIcone.classList.toggle('fa-times');
-
-};
