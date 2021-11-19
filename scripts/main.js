@@ -152,6 +152,7 @@ renderizaGoogleDocs(json, function (text) {
                 // ---------------------------------------------------------------------------------------------------------------------
             case 'imagem': // Insere imagens
                 var figure = document.createElement('figure');
+                figure.setAttribute('data-contains', 'image');
                 figure.className = block.value.tamanho;
                 figure.innerHTML =
                     `<img 
@@ -165,13 +166,40 @@ renderizaGoogleDocs(json, function (text) {
                 break;
                 // ---------------------------------------------------------------------------------------------------------------------
             case 'gráfico': // insere gráficos do Uva feitos no Illustrator
+                function trocaBoolean() {
+                    switch (block.value.mostrar_título) {
+                        case 'sim':
+                            return 'true';
+                            break;
+                        case 'não':
+                            return 'false';
+                            break;
+                    }
+                    switch (block.value.mostrar_descrição) {
+                        case 'sim':
+                            return 'true';
+                            break;
+                        case 'não':
+                            return 'false';
+                            break;
+                    }
+                    switch (block.value.mostrar_marca) {
+                        case 'sim':
+                            return 'true';
+                            break;
+                        case 'não':
+                            return 'false';
+                            break;
+                    }
+                };
+                // ---------------------------------------------------------------------------------------------------------------------
                 var div = document.createElement('div');
-                div.setAttribute('data-contains', 'gráfico');
+                div.setAttribute('data-contains', 'graphic');
                 div.className = block.value.tamanho;
                 var uvaId = block.value.fonte;
-                var showTitle = block.value.mostrar_título;
-                var showDescription = block.value.mostrar_descrição;
-                var showBrand = block.value.mostrar_marca;
+                var showTitle = trocaBoolean(block.value.mostrar_título);
+                var showDescription = trocaBoolean(block.value.mostrar_descrição);
+                var showBrand = trocaBoolean(block.value.mostrar_marca);
                 var script = document.createElement('script');
                 script.setAttribute('data-uva-id', uvaId);
                 script.setAttribute('data-show-title', showTitle);

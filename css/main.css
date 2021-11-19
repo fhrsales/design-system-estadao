@@ -172,7 +172,7 @@ hr,
 
 /* === imagem ===*/
 figure,
-div[data-contains="gráfico"] {
+div[data-contains="graphic"] {
     margin: 0 auto 0 auto;
 }
 
