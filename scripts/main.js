@@ -1,7 +1,5 @@
 const json = 'https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr/page.json';
 
-document.write("<base href='https://" + document.location.host + "' />");
-
 // -------------------------------------------------------------------------------------------------------------------------------------
 //Função para posicionar o chapéu logo abaixo do menu fixo quando selecionado
 function addMargin() {
