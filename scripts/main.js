@@ -1,5 +1,6 @@
 const json = 'https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr/page.json';
 
+
 // -------------------------------------------------------------------------------------------------------------------------------------
 //Função para posicionar o chapéu logo abaixo do menu fixo quando selecionado
 function addMargin() {
@@ -163,7 +164,7 @@ renderizaGoogleDocs(json, function (text) {
                 document.getElementById('conteudo').appendChild(figure);
                 break;
                 // ---------------------------------------------------------------------------------------------------------------------
-            case 'gráfico': // insere gráficos do Uva feitos no Illustrator
+            case 'uva': // insere gráficos do Uva feitos no Illustrator
                 function trocaBoolean() {
                     switch (block.value.mostrar_título) {
                         case 'sim':
@@ -212,10 +213,13 @@ renderizaGoogleDocs(json, function (text) {
                 var pdf = document.createElement('div');
                 pdf.className = 'pdfContainer';
                 pdf.innerHTML =
-                    `<object alt="${block.value.alt}" 
-                        class="pdf" 
-                        data="./pdfs/${block.value.fonte}?#zoom=25&scrollbar=1&toolbar=1&navpanes=1" 
-                        type="application/pdf">
+                    `<object type="application/pdf"
+                        data="./pdfs/${block.value.fonte}?#zoom=25&scrollbar=1&toolbar=1&navpanes=1"
+                        title="${block.value.title}"
+                        alt="2019 Web Accessibility Report"
+                        aria-label="this object has text" 
+                        class="pdf"
+                        >
                     </object>`;
                 document.getElementById('conteudo').appendChild(pdf);
                 break;
@@ -254,3 +258,20 @@ renderizaGoogleDocs(json, function (text) {
         }
     });
 });
+
+// ---------------------------------------------------------------------------------------------------------------------
+setTimeout(function () { // Atribui uma classe a imagem quando ela é carregada no viewport
+    const images = document.querySelectorAll('img');
+
+    function handleIntersection(entries) {
+        entries.map((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('loaded')
+                observer.unobserve(entry.target);
+            }
+        });
+    }
+    const observer = new IntersectionObserver(handleIntersection);
+
+    images.forEach(image => observer.observe(image));
+}, 100);
