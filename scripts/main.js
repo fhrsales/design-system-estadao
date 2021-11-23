@@ -1,8 +1,7 @@
-const json = 'https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr/page.json';
-
+const json = 'https://arte.estadao.com.br/public/pages/w8/1q/03/e1/q7/zr/page.json'; // Guarda em uma constante o arquivo json
 
 // -------------------------------------------------------------------------------------------------------------------------------------
-//Função para posicionar o chapéu logo abaixo do menu fixo quando selecionado
+// Função para posicionar o chapéu logo abaixo do menu fixo quando selecionado
 function addMargin() {
     window.scrollTo(0, window.pageYOffset - 130);
 }
@@ -10,7 +9,7 @@ function addMargin() {
 window.addEventListener('hashchange', addMargin);
 
 // -------------------------------------------------------------------------------------------------------------------------------------
-//Função para abrir o menu
+// Função para abrir o menu
 function abreMenu() {
     var abre = document.getElementById("hamburger");
     if (abre.style.display === "block") {
@@ -19,7 +18,7 @@ function abreMenu() {
         abre.style.display = "block";
     };
 
-    //Troca o ícone
+    // Troca o ícone
     var trocaIcone = document.getElementById("icone");
     trocaIcone.classList.toggle('fa-bars');
     trocaIcone.classList.toggle('fa-times');
@@ -27,7 +26,7 @@ function abreMenu() {
 
 
 // -------------------------------------------------------------------------------------------------------------------------------------
-function renderizaGoogleDocs(file, callback) {
+function renderizaGoogleDocs(file, callback) { // Função para renderizar o conteúdo do arquivo json
     var rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType('application/json');
     rawFile.open('GET', file, true);
@@ -41,7 +40,7 @@ function renderizaGoogleDocs(file, callback) {
 renderizaGoogleDocs(json, function (text) {
     var googleDocsData = JSON.parse(text);
     // ---------------------------------------------------------------------------------------------------------------------------------
-    //Cria o cabeçalho <head> do HTML com os metadados
+    // Cria o cabeçalho <head> do HTML com os metadados
     var metadados = '';
     googleDocsData.cabeca.forEach(function (block) {
         switch (block.type) {
@@ -82,7 +81,7 @@ renderizaGoogleDocs(json, function (text) {
     `;
 
     // ---------------------------------------------------------------------------------------------------------------------------------
-    //Primeira dobra: Título, linha fina, etc.
+    // Primeiro scroll: Título, linha fina, etc.
     var header = '';
     googleDocsData.cabeca.forEach(function (block) {
         switch (block.type) {
@@ -109,7 +108,7 @@ renderizaGoogleDocs(json, function (text) {
     document.getElementById('cabecalho').innerHTML = header;
 
     // ---------------------------------------------------------------------------------------------------------------------------------
-    //Render do conteúdo 
+    // Render do conteúdo 
     var conteudo = '';
     googleDocsData.conteudo.forEach(function (block) {
         switch (block.type) {
@@ -164,7 +163,7 @@ renderizaGoogleDocs(json, function (text) {
                 document.getElementById('conteudo').appendChild(figure);
                 break;
                 // ---------------------------------------------------------------------------------------------------------------------
-            case 'uva': // insere gráficos do Uva feitos no Illustrator
+            case 'uva': // Insere gráficos do Uva feitos no Illustrator
                 function trocaBoolean() {
                     switch (block.value.mostrar_título) {
                         case 'sim':
@@ -191,7 +190,7 @@ renderizaGoogleDocs(json, function (text) {
                             break;
                     }
                 };
-                // ---------------------------------------------------------------------------------------------------------------------
+                // -------
                 var div = document.createElement('div');
                 div.setAttribute('data-contains', 'graphic');
                 div.className = block.value.tamanho;
@@ -209,7 +208,7 @@ renderizaGoogleDocs(json, function (text) {
                 document.getElementById('conteudo').appendChild(div);
                 break;
                 // ---------------------------------------------------------------------------------------------------------------------
-            case 'pdf': // insere PDFs
+            case 'pdf': // Insere PDFs
                 var pdf = document.createElement('div');
                 pdf.className = 'pdfContainer';
                 pdf.innerHTML =
@@ -224,7 +223,7 @@ renderizaGoogleDocs(json, function (text) {
                 document.getElementById('conteudo').appendChild(pdf);
                 break;
                 // ---------------------------------------------------------------------------------------------------------------------
-            case 'youtubeVideo': // insere vídeos do YouTube
+            case 'youtubeVideo': // Insere vídeos do YouTube
                 var youtubeVideo = document.createElement('figure');
                 youtubeVideo.className = block.value.tamanho;
                 youtubeVideo.innerHTML =
@@ -237,7 +236,7 @@ renderizaGoogleDocs(json, function (text) {
                 document.getElementById('conteudo').appendChild(youtubeVideo);
                 break;
                 // ---------------------------------------------------------------------------------------------------------------------
-            case 'separador': // insere separadores entre os blocos
+            case 'separador': // Insere separadores entre os blocos
                 var separador = document.createElement('hr');
                 separador.className = 'filete_duplo';
                 document.getElementById('conteudo').appendChild(separador);
@@ -259,8 +258,8 @@ renderizaGoogleDocs(json, function (text) {
     });
 });
 
-// ---------------------------------------------------------------------------------------------------------------------
-setTimeout(function () { // Atribui uma classe a imagem quando ela é carregada no viewport
+// -------------------------------------------------------------------------------------------------------------------------------------
+setTimeout(function () { // Atribui uma classe nova para a imagem quando ela é carregada no viewport
     const images = document.querySelectorAll('img');
 
     function handleIntersection(entries) {
@@ -275,3 +274,4 @@ setTimeout(function () { // Atribui uma classe a imagem quando ela é carregada 
 
     images.forEach(image => observer.observe(image));
 }, 100);
+// -------------------------------------------------------------------------------------------------------------------------------------
