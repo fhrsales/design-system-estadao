@@ -161,31 +161,61 @@ renderizaGoogleDocs(json, function (text) {
                         <span class="credito">${block.value.credito}</span>
                     </figcaption>`;
                 document.getElementById('conteudo').appendChild(figure);
+                // -------
+                setTimeout(function () { // Adiciona uma classe CSS nova para a imagem quando ela é carregada no viewport
+                    const images = document.querySelectorAll('img');
+
+                    function handleIntersection(entries) {
+                        entries.map((entry) => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('loaded')
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }
+                    const observer = new IntersectionObserver(handleIntersection);
+                    images.forEach(image => observer.observe(image));
+                }, 100);
                 break;
                 // ---------------------------------------------------------------------------------------------------------------------
             case 'uva': // Insere gráficos do Uva feitos no Illustrator
                 function trocaBoolean() {
                     switch (block.value.mostrar_título) {
                         case 'sim':
+                        case 'SIM':
+                        case 'Sim':
                             return 'true';
                             break;
                         case 'não':
+                        case 'NÃO':
+                        case 'Não':
+                        case 'nao':
                             return 'false';
                             break;
                     }
                     switch (block.value.mostrar_descrição) {
                         case 'sim':
+                        case 'SIM':
+                        case 'Sim':
                             return 'true';
                             break;
                         case 'não':
+                        case 'NÃO':
+                        case 'Não':
+                        case 'nao':
                             return 'false';
                             break;
                     }
                     switch (block.value.mostrar_marca) {
                         case 'sim':
+                        case 'SIM':
+                        case 'Sim':
                             return 'true';
                             break;
                         case 'não':
+                        case 'NÃO':
+                        case 'Não':
+                        case 'nao':
                             return 'false';
                             break;
                     }
@@ -210,6 +240,7 @@ renderizaGoogleDocs(json, function (text) {
                 // ---------------------------------------------------------------------------------------------------------------------
             case 'pdf': // Insere PDFs
                 var pdf = document.createElement('div');
+                pdf.setAttribute('data-contains', 'PDF');
                 pdf.className = 'pdfContainer';
                 pdf.innerHTML =
                     `<object type="application/pdf"
@@ -225,6 +256,7 @@ renderizaGoogleDocs(json, function (text) {
                 // ---------------------------------------------------------------------------------------------------------------------
             case 'youtubeVideo': // Insere vídeos do YouTube
                 var youtubeVideo = document.createElement('figure');
+                youtubeVideo.setAttribute('data-contains', 'video');
                 youtubeVideo.className = block.value.tamanho;
                 youtubeVideo.innerHTML =
                     `<iframe
@@ -242,8 +274,9 @@ renderizaGoogleDocs(json, function (text) {
                 document.getElementById('conteudo').appendChild(separador);
                 break;
                 // ---------------------------------------------------------------------------------------------------------------------
-            case 'html': // Insere código HTMl customizado
+            case 'customizacao': // Insere código HTMl customizado
                 var html = document.createElement('div');
+                html.setAttribute('data-contains', 'html');
                 html.innerHTML = block.value.código;
                 document.getElementById('conteudo').appendChild(html);
                 break;
@@ -257,21 +290,16 @@ renderizaGoogleDocs(json, function (text) {
         }
     });
 });
-
 // -------------------------------------------------------------------------------------------------------------------------------------
-setTimeout(function () { // Atribui uma classe nova para a imagem quando ela é carregada no viewport
-    const images = document.querySelectorAll('img');
-
-    function handleIntersection(entries) {
-        entries.map((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('loaded')
-                observer.unobserve(entry.target);
-            }
-        });
-    }
-    const observer = new IntersectionObserver(handleIntersection);
-
-    images.forEach(image => observer.observe(image));
-}, 100);
+/* Ainda falta:
+1. Criar container de video e tocar automatico quando entra no viewport
+2. Criar scrollytelling em estágios
+3. Fazer split de conteúdo
+4. Fazer alguma animação quando clica no menu
+5. Criar estrutura de cards horizontal
+6. Retirar bloco de menu do HTMl principal
+7. Melhorar o CSS das versões mobile
+8. Reorganizar o CSS
+9. Revisar se é preciso fazer mais algum componente (pegar doc antigo com os formatos)
+*/
 // -------------------------------------------------------------------------------------------------------------------------------------
