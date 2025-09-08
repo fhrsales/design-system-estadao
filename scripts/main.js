@@ -81,7 +81,11 @@ document.addEventListener('DOMContentLoaded', function () {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="https://arte.estadao.com.br/share/favicon/favicon.ico">
+    <link rel="icon" href="./favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/feature.png">
+    <link rel="manifest" href="./site.webmanifest">
+    <link rel="mask-icon" href="./images/brandEstadao.svg" color="#0a0a0a">
+    <meta name="theme-color" content="#0a0a0a">
     <meta name="msapplication-starturl" content="https://www.estadao.com.br">
     <link rel="stylesheet" href="https://arte.estadao.com.br/share/styles/fonts.min.css">
     <link rel="stylesheet" href="./css/main.css">
