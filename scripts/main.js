@@ -9,7 +9,14 @@ function addMargin() {
 window.addEventListener('hashchange', addMargin);
 
 // -------------------------------------------------------------------------------------------------------------------------------------
-// Função para abrir o menu
+// Função do logo: voltar ao topo da página
+function voltarTopo(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// -------------------------------------------------------------------------------------------------------------------------------------
+// Função para abrir o menu (versão original)
 function abreMenu() {
     var abre = document.getElementById("hamburger");
     if (abre.style.display === "block") {
@@ -37,7 +44,8 @@ function renderizaGoogleDocs(file, callback) { // Função para renderizar o con
 };
 
 // -------------------------------------------------------------------------------------------------------------------------------------
-renderizaGoogleDocs(json, function (text) {
+document.addEventListener('DOMContentLoaded', function () {
+    renderizaGoogleDocs(json, function (text) {
     var googleDocsData = JSON.parse(text);
     // ---------------------------------------------------------------------------------------------------------------------------------
     // Cria o cabeçalho <head> do HTML com os metadados
@@ -288,6 +296,7 @@ renderizaGoogleDocs(json, function (text) {
                 document.getElementById('rodape').appendChild(paragrafo);
                 break;
         }
+    });
     });
 });
 // -------------------------------------------------------------------------------------------------------------------------------------
