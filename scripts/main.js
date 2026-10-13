@@ -126,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
         switch (block.type) {
             // -------------------------------------------------------------------------------------------------------------------------
             default: // Insere os parágrafos na sequência
+                if (typeof block.value !== 'string') break; // bloco estruturado sem componente: não vira "[object Object]"
                 var paragrafo = document.createElement('p');
                 paragrafo.className = 'texto';
                 paragrafo.innerHTML = block.value;
@@ -160,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('conteudo').appendChild(paragrafo);
                 break;
                 // ---------------------------------------------------------------------------------------------------------------------
+            case 'imagem_lead': // Imagem de abertura, logo depois do lead
             case 'imagem': // Insere imagens
                 var figure = document.createElement('figure');
                 figure.setAttribute('data-contains', 'image');
